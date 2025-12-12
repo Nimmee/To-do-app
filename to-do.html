@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Stylish To-Do App</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4ff;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+	
+      text-align: center;
+	  margin-right: 100px;
+      color: #2b3a55;
+    }
+
+    /* Input & Button */
+    #taskInput {
+
+      padding: 10px;
+      width: 70%;
+      border: 2px solid #8ab6d6;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    #addBtn {
+      padding: 10px 15px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    #addBtn:hover {
+      background: #357ac9;
+    }
+
+    /* List */
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      border-left: 6px solid #4a90e2;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .task-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Completed Task */
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    /* Delete Button */
+    .deleteBtn {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .deleteBtn:hover {
+      background: #d93636;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>My To-Do List</h1>
+
+  <input id="taskInput" type="text" placeholder="Enter a task...">
+  <button id="addBtn">Add</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    const input = document.getElementById("taskInput");
+    const addBtn = document.getElementById("addBtn");
+    const list = document.getElementById("taskList");
+
+    // Add task
+    addBtn.onclick = () => {
+      const text = input.value.trim();
+      if (text === "") return;
+
+      addTask(text);
+      input.value = "";
+    };
+
+    input.onkeydown = (e) => {
+      if (e.key === "Enter") addBtn.click();
+    };
+
+    function addTask(text) {
+      const li = document.createElement("li");
+
+      const left = document.createElement("div");
+      left.className = "task-left";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+
+      const span = document.createElement("span");
+      span.textContent = text;
+
+      checkbox.onchange = () => {
+        if (checkbox.checked) span.classList.add("completed");
+        else span.classList.remove("completed");
+      };
+
+      left.appendChild(checkbox);
+      left.appendChild(span);
+
+      const del = document.createElement("button");
+      del.textContent = "Delete";
+      del.className = "deleteBtn";
+
+      del.onclick = () => {
+        list.removeChild(li);
+      };
+
+      li.appendChild(left);
+      li.appendChild(del);
+      list.appendChild(li);
+    }
+  </script>
+
+</body>
+</html>
